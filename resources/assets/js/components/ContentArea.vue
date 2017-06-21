@@ -19,7 +19,7 @@
                 if (typeof event.added === 'undefined') {
                     return;
                 }
-                this.$store.dispatch('addWidget', event.added.element);
+                this.$store.dispatch('addWidget', { element: event.added.element, index: event.added.newIndex });
             }
         },
         components: {

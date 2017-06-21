@@ -1,10 +1,10 @@
 <template>
     <div style="display:flex;flex-direction:row">
         <div style="flex:1">
-            <dragger></dragger>
+            <widget-list></widget-list>
         </div>
         <div style="flex:5">
-            <dropzone></dropzone>
+            <content-area></content-area>
         </div>
     </div>
 </template>

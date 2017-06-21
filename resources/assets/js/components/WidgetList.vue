@@ -17,15 +17,14 @@
 
     export default {
         data() {
-            console.log(CategoryList);
             return {
                 widgets: [CategoryList, RandomWidget, RandomWidget, RandomWidget, RandomWidget]
             }
         },
         methods: {
             save() {
-                axios.post('/save', { contents: [] })
-                             .then((response) => { console.log(response); })
+                axios.post('/save', { contents: this.$store.state.contents.map(widget => { return { name: widget.name, template: widget.template } }) })
+                             .then((response) => { console.log('template updated successfully!'); })
                              .catch((error) => { console.log(error); });
             }
         },
@@ -36,9 +35,6 @@
 </script>
 
 <style lang="scss">
-    .dragger {
-        box-shadow: 10px 0px 2px -6px rgba(207,207,207,1);
-    }
     .drag {
         text-align: center;
     }
@@ -47,7 +43,8 @@
         width: 80%;
         border: 1px solid #ccc;
         display: inline-block;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
+        margin-top: 5px;
         background-color: #fff;
         cursor: move;
     }

@@ -39,11 +39,15 @@
     </head>
     <body>
         <div class="flex-center position-ref">
-            <div class="content" style="flex:1">
-                <img src="/images/mystore-header.png" style="width:100%" alt="Mystore Header" />
-                <div id="app"></div>
+            <div class="content">
+                @foreach ($contents as $content)
+                    @include('widgets.' . $content->template)
+                @endforeach
+                <div>
+                    <a href="{{ url('/editor') }}">editor</a>
+                </div>
             </div>
         </div>
-        <script src="{{ mix('/js/app.js') }}"></script>
+        <!--<script src="{{ mix('/js/app.js') }}"></script>-->
     </body>
 </html>

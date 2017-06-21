@@ -12,9 +12,11 @@
 */
 
 use Illuminate\Http\Request;
+use App\Templates;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index', ['contents' => (new Templates)
+                ->where('active', 1)->where('page', 'toppage')->orderBy('updated_at', 'desc')->value('contents')]);
 });
 
 Route::get('/editor', function () {
@@ -26,5 +28,11 @@ Route::get('/widgets/{name}', function (string $name) {
 });
 
 Route::post('/save', function (Request $request) {
-    return $request->all();
+    $template           = new Templates;
+    $template->version  = '1.0';
+    $template->page     = 'toppage';
+    $template->contents = json_encode($request->input('contents'));
+    $template->save();
+
+    return ['status' => 'ok!'];
 });

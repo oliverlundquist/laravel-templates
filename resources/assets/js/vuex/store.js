@@ -12,7 +12,6 @@ const state = {
 }
 
 const getters = {
-    evenOrOdd: state => state.count % 2 === 0 ? 'even' : 'odd',
     getWidgets: state => {
         state.contents.forEach((widget, index) => {
             if (_.isUndefined(widget.html)) {
@@ -29,33 +28,25 @@ const getters = {
 }
 
 const actions = {
-    increment: ({ commit }) => commit('increment'),
-    decrement: ({ commit }) => commit('decrement'),
-    addWidget: ({ commit }, widget) => {
-        return axios.get('/widgets/' + widget.template)
+    addWidget: ({ commit }, payload) => {
+        return axios.get('/widgets/' + payload.element.template)
             .then((response) => {
-                widget.html = response.data;
-                commit('addWidget', widget);
+                payload.element.html = response.data;
+                commit('addWidget', payload);
             })
             .catch((error) => { console.log(error); });
     }
 }
 
 const mutations = {
-  increment (state) {
-    state.count++
-  },
-  decrement (state) {
-    state.count--
-  },
-  addWidget (state, widget) {
-    state.contents.push(widget);
-  }
+    addWidget (state, payload) {
+        state.contents.splice(payload.index, 0, payload.element);
+    }
 }
 
 export default new Vuex.Store({
-  state,
-  getters,
-  actions,
-  mutations
+    state,
+    getters,
+    actions,
+    mutations
 })

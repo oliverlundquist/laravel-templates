@@ -18,10 +18,8 @@ window.Vue = require('vue');
 import store from './vuex/store';
 import App from './components/App.vue'
 
-Vue.component('example', require('./components/Example.vue'));
-Vue.component('counter', require('./components/Counter.vue'));
-Vue.component('dragger', require('./components/Dragger.vue'));
-Vue.component('dropzone', require('./components/Dropzone.vue'));
+Vue.component('widget-list', require('./components/WidgetList.vue'));
+Vue.component('content-area', require('./components/ContentArea.vue'));
 
 const app = new Vue({
     el: '#app',
