@@ -11,10 +11,20 @@
 |
 */
 
+use Illuminate\Http\Request;
+
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('/editor', function () {
     return view('editor');
+});
+
+Route::get('/widgets/{name}', function (string $name) {
+    return view('widgets.' . $name);
+});
+
+Route::post('/save', function (Request $request) {
+    return $request->all();
 });

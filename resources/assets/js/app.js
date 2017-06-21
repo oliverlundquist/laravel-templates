@@ -15,10 +15,16 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+import store from './vuex/store';
+import App from './components/App.vue'
+
 Vue.component('example', require('./components/Example.vue'));
+Vue.component('counter', require('./components/Counter.vue'));
 Vue.component('dragger', require('./components/Dragger.vue'));
 Vue.component('dropzone', require('./components/Dropzone.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    store,
+    render: h => h(App)
 });

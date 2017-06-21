@@ -22,10 +22,6 @@
             margin: 0;
         }
 
-        .full-height {
-            height: 100vh;
-        }
-
         .flex-center {
             align-items: center;
             display: flex;
@@ -36,43 +32,17 @@
             position: relative;
         }
 
-        .top-right {
-            position: absolute;
-            right: 10px;
-            top: 18px;
-        }
-
         .content {
             text-align: center;
         }
 
-        .title {
-            font-size: 84px;
-        }
-
-        .links > a {
-            color: #636b6f;
-            padding: 0 25px;
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: .1rem;
-            text-decoration: none;
-            text-transform: uppercase;
-        }
-
-        .m-b-md {
-            margin-bottom: 30px;
-        }
     </style>
 </head>
 <body>
-{{--<div class="flex-center position-ref full-height">--}}
 <div class="flex-center position-ref">
     <div class="content" style="flex:1">
-        <div id="app" style="display:flex;flex-direction:row">
-            <div style="flex:1"><dragger></dragger></div>
-            <div style="flex:5"><dropzone></dropzone></div>
-        </div>
+        <img src="/images/mystore-header.png" style="width:100%" alt="Mystore Header" />
+        <div id="app"></div>
     </div>
     <script src="{{ mix('/js/app.js') }}"></script>
 </div>

@@ -1,43 +1,25 @@
 <template>
     <div class="dropzone">
-        <h1>Content Area</h1>
         <div class="drag">
-            <h2>List 2 Draggable</h2>
-            <draggable v-model="list2" class="dragArea" :options="{group:'people'}" @add="onAdded" @change="onAdded">
-                <div v-for="(element, index) in list2" :key="index" v-html="element.widget"></div>
+            <draggable v-model="getWidgets" class="dragArea" :options="{group:'people'}" @change="addWidget">
+                <div v-for="(element, index) in getWidgets" :key="index" v-html="element.html"></div>
             </draggable>
-        </div>
-
-        <div class="normal">
-            <h2>Static</h2>
-            <div class="dragArea">
-                <div v-for="element in list2">{{element.widget}}</div>
-            </div>
         </div>
     </div>
 </template>
 
 <script>
     import draggable from 'vuedraggable'
-
-    let contents = [{name: 'first one', widget: '{{blahblah}}'}];
+    import { mapGetters, mapActions } from 'vuex'
 
     export default {
-        data() {
-            return {
-                list2: contents
-            }
-        },
-        mounted() {
-            console.log('Draggable mounted.')
-        },
+        computed: mapGetters(['getWidgets']),
         methods: {
-            onAdded(event) {
+            addWidget(event) {
                 if (typeof event.added === 'undefined') {
                     return;
                 }
-                const element = event.added.element;
-                contents.push(element);
+                this.$store.dispatch('addWidget', event.added.element);
             }
         },
         components: {
@@ -48,6 +30,7 @@
 
 <style lang="scss">
     .dropzone {
-        background-color:#ccc;
+        background-color:#eee;
+        padding: 20px;
     }
 </style>
