@@ -15,6 +15,8 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+window.Please = require('pleasejs');
+
 import store from './vuex/store';
 import App from './components/App.vue'
 

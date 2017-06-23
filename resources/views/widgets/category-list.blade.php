@@ -1,4 +1,4 @@
-<div class="row" style="padding:37px;background-color:#FFF;margin-left:0;margin-right:0">
+<div class="row" style="padding:37px;background-color:inherit;margin-left:0;margin-right:0">
     <div class="col-md-3 col-sm-6 col-xs-6 grid_image">
         <a href="http://webshipr2.mystore4.no/categories/dame" class="banner_image animation-none" style="background-image: url(http://webshipr2.mystore4.no/users/demomal_mystore_no/images/upload_148958392258c93f3295f58.jpg);">
             <img style="width:100%" src="http://webshipr2.mystore4.no/users/demomal_mystore_no/images/upload_148958392258c93f3295f58.jpg">

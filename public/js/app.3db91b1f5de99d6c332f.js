@@ -1653,6 +1653,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuedraggable__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__widgets_category_list__ = __webpack_require__("./resources/assets/js/widgets/category-list.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__widgets_random_widget__ = __webpack_require__("./resources/assets/js/widgets/random-widget.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_base_colors__ = __webpack_require__("./resources/assets/js/utils/base-colors.js");
 //
 //
 //
@@ -1665,6 +1666,41 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -1672,12 +1708,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
+        var suggestedColorCodes = this.getSuggestedColorCodes(__WEBPACK_IMPORTED_MODULE_3__utils_base_colors__["a" /* default */][0]);
         return {
-            widgets: [__WEBPACK_IMPORTED_MODULE_1__widgets_category_list__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__widgets_random_widget__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__widgets_random_widget__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__widgets_random_widget__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__widgets_random_widget__["a" /* default */]]
+            widgets: [__WEBPACK_IMPORTED_MODULE_1__widgets_category_list__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__widgets_random_widget__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__widgets_random_widget__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__widgets_random_widget__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__widgets_random_widget__["a" /* default */]],
+            colors: {
+                base: __WEBPACK_IMPORTED_MODULE_3__utils_base_colors__["a" /* default */],
+                suggested: suggestedColorCodes,
+                selected: {
+                    base: __WEBPACK_IMPORTED_MODULE_3__utils_base_colors__["a" /* default */][0],
+                    backgroundColorCodeIndex: 0,
+                    textColorCodeIndex: 0
+                }
+            }
         };
     },
 
     methods: {
+        setBaseColor: function setBaseColor(index) {
+            this.colors.selected.base = __WEBPACK_IMPORTED_MODULE_3__utils_base_colors__["a" /* default */][index];
+            this.colors.suggested = this.getSuggestedColorCodes(__WEBPACK_IMPORTED_MODULE_3__utils_base_colors__["a" /* default */][index]);
+        },
+        setBackgroundColor: function setBackgroundColor(index) {
+            this.colors.selected.backgroundColorCodeIndex = index;
+            this.$store.dispatch('setBackgroundColorCode', this.colors.suggested[index]);
+        },
+        getSuggestedColorCodes: function getSuggestedColorCodes(baseColor) {
+            return _.concat(Please.make_scheme(Please.NAME_to_HSV(baseColor.name), { scheme_type: 'monochromatic' }), Please.make_scheme(Please.NAME_to_HSV(baseColor.name), { scheme_type: 'complementary' }), Please.make_scheme(Please.NAME_to_HSV(baseColor.name), { scheme_type: 'split-complementary' }), Please.make_scheme(Please.NAME_to_HSV(baseColor.name), { scheme_type: 'double-complementary' }), Please.make_scheme(Please.NAME_to_HSV(baseColor.name), { scheme_type: 'analogous' }), Please.make_scheme(Please.NAME_to_HSV(baseColor.name), { scheme_type: 'triadic' }), Please.make_color({ colors_returned: 5 }));
+        },
         save: function save() {
             axios.post('/save', { contents: this.$store.state.contents.map(function (widget) {
                     return { name: widget.name, template: widget.template };
@@ -4083,7 +4140,7 @@ if (typeof jQuery === 'undefined') {
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")();
-exports.push([module.i, "\n.drag {\n  text-align: center;\n}\n.widget {\n  padding: 3px;\n  width: 80%;\n  border: 1px solid #ccc;\n  display: inline-block;\n  margin-bottom: 5px;\n  margin-top: 5px;\n  background-color: #fff;\n  cursor: move;\n}\n", ""]);
+exports.push([module.i, "\n.drag {\n  text-align: center;\n}\n.widget {\n  padding: 3px;\n  width: 80%;\n  border: 1px solid #ccc;\n  display: inline-block;\n  margin-bottom: 5px;\n  margin-top: 5px;\n  background-color: #fff;\n  cursor: move;\n}\n.color-patch {\n  padding: 0 8px;\n}\n.color-patch-with-label {\n  padding: 0 8px;\n  margin: 0 5px 0 0;\n}\n", ""]);
 
 /***/ }),
 
@@ -4091,7 +4148,7 @@ exports.push([module.i, "\n.drag {\n  text-align: center;\n}\n.widget {\n  paddi
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/css-base.js")();
-exports.push([module.i, "\n.dropzone {\n  background-color: #eee;\n  padding: 20px;\n}\n", ""]);
+exports.push([module.i, "\n.dropzone {\n  background-color: #eee;\n  padding: 20px;\n}\n.dragArea {\n  background-color: #fff;\n}\n", ""]);
 
 /***/ }),
 
@@ -31506,6 +31563,17 @@ return jQuery;
 
 /***/ }),
 
+/***/ "./node_modules/pleasejs/dist/Please.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!Please JS v0.4.2, Jordan Checkman 2014, Checkman.io, MIT License, Have fun.*/
+!function(e,r,a){ true?!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (a),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):"object"==typeof exports?module.exports=a():r[e]=a()}("Please",this,function(){"use strict";function e(){function e(e,r,a){var o=Math.random;return a instanceof l&&(o=a.random),Math.floor(o()*(r-e+1))+e}function r(e,r,a){var o=Math.random;return a instanceof l&&(o=a.random),o()*(r-e)+e}function a(e,r,a){return Math.max(r,Math.min(e,a))}function o(e,r){var a;switch(e){case"hex":for(a=0;a<r.length;a++)r[a]=F.HSV_to_HEX(r[a]);break;case"rgb":for(a=0;a<r.length;a++)r[a]=F.HSV_to_RGB(r[a]);break;case"rgb-string":for(a=0;a<r.length;a++){var o=F.HSV_to_RGB(r[a]);r[a]="rgb("+o.r+","+o.g+","+o.b+")"}break;case"hsv":break;default:console.error("Format not recognized.")}return r}function n(e){var r=F.HSV_to_RGB(e),a=(299*r.r+587*r.g+114*r.b)/1e3;return a>=128?"dark":"light"}function t(e){var r={};for(var a in e)e.hasOwnProperty(a)&&(r[a]=e[a]);return r}function l(e){function r(){o=(o+1)%256,n=(n+a[o])%256;var e=a[o];return a[o]=a[n],a[n]=e,a[(a[o]+a[n])%256]}for(var a=[],o=0,n=0,t=0;256>t;t++)a[t]=t;for(var l=0,F=0;256>l;l++){F=(F+a[l]+e.charCodeAt(l%e.length))%256;var s=a[l];a[l]=a[F],a[F]=s}this.random=function(){for(var e=0,a=0,o=1;8>e;e++)a+=r()*o,o*=256;return a/0x10000000000000000}}var F={},s={aliceblue:"F0F8FF",antiquewhite:"FAEBD7",aqua:"00FFFF",aquamarine:"7FFFD4",azure:"F0FFFF",beige:"F5F5DC",bisque:"FFE4C4",black:"000000",blanchedalmond:"FFEBCD",blue:"0000FF",blueviolet:"8A2BE2",brown:"A52A2A",burlywood:"DEB887",cadetblue:"5F9EA0",chartreuse:"7FFF00",chocolate:"D2691E",coral:"FF7F50",cornflowerblue:"6495ED",cornsilk:"FFF8DC",crimson:"DC143C",cyan:"00FFFF",darkblue:"00008B",darkcyan:"008B8B",darkgoldenrod:"B8860B",darkgray:"A9A9A9",darkgrey:"A9A9A9",darkgreen:"006400",darkkhaki:"BDB76B",darkmagenta:"8B008B",darkolivegreen:"556B2F",darkorange:"FF8C00",darkorchid:"9932CC",darkred:"8B0000",darksalmon:"E9967A",darkseagreen:"8FBC8F",darkslateblue:"483D8B",darkslategray:"2F4F4F",darkslategrey:"2F4F4F",darkturquoise:"00CED1",darkviolet:"9400D3",deeppink:"FF1493",deepskyblue:"00BFFF",dimgray:"696969",dimgrey:"696969",dodgerblue:"1E90FF",firebrick:"B22222",floralwhite:"FFFAF0",forestgreen:"228B22",fuchsia:"FF00FF",gainsboro:"DCDCDC",ghostwhite:"F8F8FF",gold:"FFD700",goldenrod:"DAA520",gray:"808080",grey:"808080",green:"008000",greenyellow:"ADFF2F",honeydew:"F0FFF0",hotpink:"FF69B4",indianred:"CD5C5C",indigo:"4B0082",ivory:"FFFFF0",khaki:"F0E68C",lavender:"E6E6FA",lavenderblush:"FFF0F5",lawngreen:"7CFC00",lemonchiffon:"FFFACD",lightblue:"ADD8E6",lightcoral:"F08080",lightcyan:"E0FFFF",lightgoldenrodyellow:"FAFAD2",lightgray:"D3D3D3",lightgrey:"D3D3D3",lightgreen:"90EE90",lightpink:"FFB6C1",lightsalmon:"FFA07A",lightseagreen:"20B2AA",lightskyblue:"87CEFA",lightslategray:"778899",lightslategrey:"778899",lightsteelblue:"B0C4DE",lightyellow:"FFFFE0",lime:"00FF00",limegreen:"32CD32",linen:"FAF0E6",magenta:"FF00FF",maroon:"800000",mediumaquamarine:"66CDAA",mediumblue:"0000CD",mediumorchid:"BA55D3",mediumpurple:"9370D8",mediumseagreen:"3CB371",mediumslateblue:"7B68EE",mediumspringgreen:"00FA9A",mediumturquoise:"48D1CC",mediumvioletred:"C71585",midnightblue:"191970",mintcream:"F5FFFA",mistyrose:"FFE4E1",moccasin:"FFE4B5",navajowhite:"FFDEAD",navy:"000080",oldlace:"FDF5E6",olive:"808000",olivedrab:"6B8E23",orange:"FFA500",orangered:"FF4500",orchid:"DA70D6",palegoldenrod:"EEE8AA",palegreen:"98FB98",paleturquoise:"AFEEEE",palevioletred:"D87093",papayawhip:"FFEFD5",peachpuff:"FFDAB9",peru:"CD853F",pink:"FFC0CB",plum:"DDA0DD",powderblue:"B0E0E6",purple:"800080",rebeccapurple:"663399",red:"FF0000",rosybrown:"BC8F8F",royalblue:"4169E1",saddlebrown:"8B4513",salmon:"FA8072",sandybrown:"F4A460",seagreen:"2E8B57",seashell:"FFF5EE",sienna:"A0522D",silver:"C0C0C0",skyblue:"87CEEB",slateblue:"6A5ACD",slategray:"708090",slategrey:"708090",snow:"FFFAFA",springgreen:"00FF7F",steelblue:"4682B4",tan:"D2B48C",teal:"008080",thistle:"D8BFD8",tomato:"FF6347",turquoise:"40E0D0",violet:"EE82EE",wheat:"F5DEB3",white:"FFFFFF",whitesmoke:"F5F5F5",yellow:"FFFF00",yellowgreen:"9ACD32"},i=.618033988749895,u={hue:null,saturation:null,value:null,base_color:"",greyscale:!1,grayscale:!1,golden:!0,full_random:!1,colors_returned:1,format:"hex",seed:null},c={scheme_type:"analogous",format:"hex"},h={golden:!1,format:"hex"};return F.NAME_to_HEX=function(e){return e=e.toLowerCase(),e in s?s[e]:(console.error("Color name not recognized."),void 0)},F.NAME_to_RGB=function(e){return F.HEX_to_RGB(F.NAME_to_HEX(e))},F.NAME_to_HSV=function(e){return F.HEX_to_HSV(F.NAME_to_HEX(e))},F.HEX_to_RGB=function(e){var r=/^#?([a-f\d])([a-f\d])([a-f\d])$/i;e=e.replace(r,function(e,r,a,o){return r+r+a+a+o+o});var a=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(e);return a?{r:parseInt(a[1],16),g:parseInt(a[2],16),b:parseInt(a[3],16)}:null},F.RGB_to_HEX=function(e){return"#"+((1<<24)+(e.r<<16)+(e.g<<8)+e.b).toString(16).slice(1)},F.HSV_to_RGB=function(e){var r,a,o,n,t,l,F,s,i=e.h,u=e.s,c=e.v;if(0===u)return{r:c,g:c,b:c};switch(i/=60,n=Math.floor(i),t=i-n,l=c*(1-u),F=c*(1-u*t),s=c*(1-u*(1-t)),n){case 0:r=c,a=s,o=l;break;case 1:r=F,a=c,o=l;break;case 2:r=l,a=c,o=s;break;case 3:r=l,a=F,o=c;break;case 4:r=s,a=l,o=c;break;case 5:r=c,a=l,o=F}return{r:Math.floor(255*r),g:Math.floor(255*a),b:Math.floor(255*o)}},F.RGB_to_HSV=function(e){var r=e.r/255,a=e.g/255,o=e.b/255,n=0,t=0,l=0,F=Math.min(r,Math.min(a,o)),s=Math.max(r,Math.max(a,o));if(F===s)return l=F,{h:0,s:0,v:l};var i=r===F?a-o:o===F?r-a:o-r,u=r===F?3:o===F?1:5;return n=60*(u-i/(s-F)),t=(s-F)/s,l=s,{h:n,s:t,v:l}},F.HSV_to_HEX=function(e){return F.RGB_to_HEX(F.HSV_to_RGB(e))},F.HEX_to_HSV=function(e){return F.RGB_to_HSV(F.HEX_to_RGB(e))},F.make_scheme=function(e,r){function n(e){return{h:e.h,s:e.s,v:e.v}}var l,F,s,i,u,h=t(c);if(null!==r)for(var d in r)r.hasOwnProperty(d)&&(h[d]=r[d]);var g=[e];switch(h.scheme_type.toLowerCase()){case"monochromatic":case"mono":for(u=1;2>=u;u++)l=n(e),s=l.s+.1*u,s=a(s,0,1),i=l.v+.1*u,i=a(i,0,1),l.s=s,l.v=i,g.push(l);for(u=1;2>=u;u++)l=n(e),s=l.s-.1*u,s=a(s,0,1),i=l.v-.1*u,i=a(i,0,1),l.s=s,l.v=i,g.push(l);break;case"complementary":case"complement":case"comp":l=n(e),l.h=(l.h+180)%360,g.push(l);break;case"split-complementary":case"split-complement":case"split":l=n(e),l.h=(l.h+165)%360,g.push(l),l=n(e),l.h=Math.abs((l.h-165)%360),g.push(l);break;case"double-complementary":case"double-complement":case"double":l=n(e),l.h=(l.h+180)%360,g.push(l),l.h=(l.h+30)%360,F=n(l),g.push(l),l.h=(l.h+180)%360,g.push(F);break;case"analogous":case"ana":for(u=1;5>=u;u++)l=n(e),l.h=(l.h+20*u)%360,g.push(l);break;case"triadic":case"triad":case"tri":for(u=1;3>u;u++)l=n(e),l.h=(l.h+120*u)%360,g.push(l);break;default:console.error("Color scheme not recognized.")}return o(h.format.toLowerCase(),g),g},F.make_color=function(n){var s=[],c=t(u),h=null;if(null!==n)for(var d in n)n.hasOwnProperty(d)&&(c[d]=n[d]);var g=null;"string"==typeof c.seed&&(g=new l(c.seed)),c.base_color.length>0&&(h=c.base_color.match(/^#?([0-9a-f]{3})([0-9a-f]{3})?$/i)?F.HEX_to_HSV(c.base_color):F.NAME_to_HSV(c.base_color));for(var m=0;m<c.colors_returned;m++){var f,E,b,p=e(0,360,g);null!==h?(f=a(e(h.h-5,h.h+5,g),0,360),E=0===h.s?0:r(.4,.85,g),b=r(.4,.85,g),s.push({h:f,s:E,v:b})):(f=c.greyscale===!0||c.grayscale===!0?0:c.golden===!0?(p+p/i)%360:null===c.hue||c.full_random===!0?p:a(c.hue,0,360),E=c.greyscale===!0||c.grayscale===!0?0:c.full_random===!0?r(0,1,g):null===c.saturation?.4:a(c.saturation,0,1),b=c.full_random===!0?r(0,1,g):c.greyscale===!0||c.grayscale===!0?r(.15,.75,g):null===c.value?.75:a(c.value,0,1),s.push({h:f,s:E,v:b}))}return o(c.format.toLowerCase(),s),s},F.make_contrast=function(e,r){var l=t(h);if(null!==r)for(var s in r)r.hasOwnProperty(s)&&(l[s]=r[s]);var u,c,d=n(e);if(l.golden===!0)c=e.h*(1+i)%360;else{var g=F.make_scheme(e,{scheme_type:"complementary",format:"hsv"})[1];c=a(g.h-30,0,360)}var m;return"dark"===d?m=a(e.v-.25,0,1):"light"===d&&(m=a(e.v+.25,0,1)),u=[{h:c,s:e.s,v:m}],o(l.format.toLowerCase(),u),u[0]},F}return e()});
+
+/***/ }),
+
 /***/ "./node_modules/process/browser.js":
 /***/ (function(module, exports) {
 
@@ -33288,7 +33356,82 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       key: index,
       staticClass: "widget"
     }, [_vm._v(_vm._s(element.name))])
-  }))], 1), _vm._v(" "), _c('button', {
+  }))], 1), _vm._v(" "), _c('h1', [_vm._v("Color Scheme")]), _vm._v(" "), _c('h4', [_vm._v("Base Color")]), _vm._v(" "), _c('div', [_c('div', {
+    staticClass: "btn-group"
+  }, [_c('button', {
+    staticClass: "btn btn-default dropdown-toggle",
+    attrs: {
+      "type": "button",
+      "data-toggle": "dropdown",
+      "aria-haspopup": "true",
+      "aria-expanded": "false"
+    }
+  }, [_c('span', {
+    staticClass: "color-patch-with-label",
+    style: ({
+      backgroundColor: '#' + _vm.colors.selected.base.code
+    })
+  }), _vm._v(_vm._s(_vm.colors.selected.base.name) + " "), _c('span', {
+    staticClass: "caret"
+  })]), _vm._v(" "), _c('ul', {
+    staticClass: "dropdown-menu"
+  }, _vm._l((_vm.colors.base), function(color, index) {
+    return _c('li', {
+      key: index
+    }, [_c('a', {
+      staticStyle: {
+        "cursor": "pointer"
+      },
+      on: {
+        "click": function($event) {
+          _vm.setBaseColor(index)
+        }
+      }
+    }, [_c('span', {
+      staticClass: "color-patch-with-label",
+      style: ({
+        backgroundColor: '#' + color.code
+      })
+    }), _vm._v(_vm._s(color.name))])])
+  }))])]), _vm._v(" "), _c('h4', [_vm._v("Background Color")]), _vm._v(" "), _c('div', _vm._l((_vm.colors.suggested), function(code, index) {
+    return _c('button', {
+      key: index,
+      staticClass: "btn btn-default",
+      class: [_vm.colors.selected.backgroundColorCodeIndex === index ? 'active' : ''],
+      attrs: {
+        "type": "button"
+      },
+      on: {
+        "click": function($event) {
+          _vm.setBackgroundColor(index)
+        }
+      }
+    }, [_c('span', {
+      staticClass: "color-patch",
+      style: ({
+        backgroundColor: code
+      })
+    })])
+  })), _vm._v(" "), _c('h4', [_vm._v("Text Color")]), _vm._v(" "), _c('div', _vm._l((_vm.colors.suggested), function(code, index) {
+    return _c('button', {
+      key: index,
+      staticClass: "btn btn-default",
+      class: [_vm.colors.selected.textColorCodeIndex === index ? 'active' : ''],
+      attrs: {
+        "type": "button"
+      },
+      on: {
+        "click": function($event) {
+          _vm.colors.selected.textColorCodeIndex = index
+        }
+      }
+    }, [_c('span', {
+      staticClass: "color-patch",
+      style: ({
+        backgroundColor: code
+      })
+    })])
+  })), _vm._v(" "), _c('button', {
     staticClass: "btn btn-success",
     staticStyle: {
       "margin-top": "20px"
@@ -33325,7 +33468,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticStyle: {
       "flex": "5"
     }
-  }, [_c('content-area'), _vm._v(" "), _c('content-area')], 1)])
+  }, [_c('content-area')], 1)])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -33347,6 +33490,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "drag"
   }, [_c('draggable', {
     staticClass: "dragArea",
+    style: ({
+      backgroundColor: _vm.$store.state.backgroundColorCode
+    }),
     attrs: {
       "options": {
         group: 'people'
@@ -44653,6 +44799,8 @@ window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+window.Please = __webpack_require__("./node_modules/pleasejs/dist/Please.js");
+
 
 
 
@@ -44841,6 +44989,14 @@ module.exports = Component.exports
 
 /***/ }),
 
+/***/ "./resources/assets/js/utils/base-colors.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ([{ name: "aliceblue", code: "F0F8FF" }, { name: "antiquewhite", code: "FAEBD7" }, { name: "aqua", code: "00FFFF" }, { name: "aquamarine", code: "7FFFD4" }, { name: "azure", code: "F0FFFF" }, { name: "beige", code: "F5F5DC" }, { name: "bisque", code: "FFE4C4" }, { name: "black", code: "000000" }, { name: "blanchedalmond", code: "FFEBCD" }, { name: "blue", code: "0000FF" }, { name: "blueviolet", code: "8A2BE2" }, { name: "brown", code: "A52A2A" }, { name: "burlywood", code: "DEB887" }, { name: "cadetblue", code: "5F9EA0" }, { name: "chartreuse", code: "7FFF00" }, { name: "chocolate", code: "D2691E" }, { name: "coral", code: "FF7F50" }, { name: "cornflowerblue", code: "6495ED" }, { name: "cornsilk", code: "FFF8DC" }, { name: "crimson", code: "DC143C" }, { name: "cyan", code: "00FFFF" }, { name: "darkblue", code: "00008B" }, { name: "darkcyan", code: "008B8B" }, { name: "darkgoldenrod", code: "B8860B" }, { name: "darkgray", code: "A9A9A9" }, { name: "darkgrey", code: "A9A9A9" }, { name: "darkgreen", code: "006400" }, { name: "darkkhaki", code: "BDB76B" }, { name: "darkmagenta", code: "8B008B" }, { name: "darkolivegreen", code: "556B2F" }, { name: "darkorange", code: "FF8C00" }, { name: "darkorchid", code: "9932CC" }, { name: "darkred", code: "8B0000" }, { name: "darksalmon", code: "E9967A" }, { name: "darkseagreen", code: "8FBC8F" }, { name: "darkslateblue", code: "483D8B" }, { name: "darkslategray", code: "2F4F4F" }, { name: "darkslategrey", code: "2F4F4F" }, { name: "darkturquoise", code: "00CED1" }, { name: "darkviolet", code: "9400D3" }, { name: "deeppink", code: "FF1493" }, { name: "deepskyblue", code: "00BFFF" }, { name: "dimgray", code: "696969" }, { name: "dimgrey", code: "696969" }, { name: "dodgerblue", code: "1E90FF" }, { name: "firebrick", code: "B22222" }, { name: "floralwhite", code: "FFFAF0" }, { name: "forestgreen", code: "228B22" }, { name: "fuchsia", code: "FF00FF" }, { name: "gainsboro", code: "DCDCDC" }, { name: "ghostwhite", code: "F8F8FF" }, { name: "gold", code: "FFD700" }, { name: "goldenrod", code: "DAA520" }, { name: "gray", code: "808080" }, { name: "grey", code: "808080" }, { name: "green", code: "008000" }, { name: "greenyellow", code: "ADFF2F" }, { name: "honeydew", code: "F0FFF0" }, { name: "hotpink", code: "FF69B4" }, { name: "indianred", code: "CD5C5C" }, { name: "indigo", code: "4B0082" }, { name: "ivory", code: "FFFFF0" }, { name: "khaki", code: "F0E68C" }, { name: "lavender", code: "E6E6FA" }, { name: "lavenderblush", code: "FFF0F5" }, { name: "lawngreen", code: "7CFC00" }, { name: "lemonchiffon", code: "FFFACD" }, { name: "lightblue", code: "ADD8E6" }, { name: "lightcoral", code: "F08080" }, { name: "lightcyan", code: "E0FFFF" }, { name: "lightgoldenrodyellow", code: "FAFAD2" }, { name: "lightgray", code: "D3D3D3" }, { name: "lightgrey", code: "D3D3D3" }, { name: "lightgreen", code: "90EE90" }, { name: "lightpink", code: "FFB6C1" }, { name: "lightsalmon", code: "FFA07A" }, { name: "lightseagreen", code: "20B2AA" }, { name: "lightskyblue", code: "87CEFA" }, { name: "lightslategray", code: "778899" }, { name: "lightslategrey", code: "778899" }, { name: "lightsteelblue", code: "B0C4DE" }, { name: "lightyellow", code: "FFFFE0" }, { name: "lime", code: "00FF00" }, { name: "limegreen", code: "32CD32" }, { name: "linen", code: "FAF0E6" }, { name: "magenta", code: "FF00FF" }, { name: "maroon", code: "800000" }, { name: "mediumaquamarine", code: "66CDAA" }, { name: "mediumblue", code: "0000CD" }, { name: "mediumorchid", code: "BA55D3" }, { name: "mediumpurple", code: "9370D8" }, { name: "mediumseagreen", code: "3CB371" }, { name: "mediumslateblue", code: "7B68EE" }, { name: "mediumspringgreen", code: "00FA9A" }, { name: "mediumturquoise", code: "48D1CC" }, { name: "mediumvioletred", code: "C71585" }, { name: "midnightblue", code: "191970" }, { name: "mintcream", code: "F5FFFA" }, { name: "mistyrose", code: "FFE4E1" }, { name: "moccasin", code: "FFE4B5" }, { name: "navajowhite", code: "FFDEAD" }, { name: "navy", code: "000080" }, { name: "oldlace", code: "FDF5E6" }, { name: "olive", code: "808000" }, { name: "olivedrab", code: "6B8E23" }, { name: "orange", code: "FFA500" }, { name: "orangered", code: "FF4500" }, { name: "orchid", code: "DA70D6" }, { name: "palegoldenrod", code: "EEE8AA" }, { name: "palegreen", code: "98FB98" }, { name: "paleturquoise", code: "AFEEEE" }, { name: "palevioletred", code: "D87093" }, { name: "papayawhip", code: "FFEFD5" }, { name: "peachpuff", code: "FFDAB9" }, { name: "peru", code: "CD853F" }, { name: "pink", code: "FFC0CB" }, { name: "plum", code: "DDA0DD" }, { name: "powderblue", code: "B0E0E6" }, { name: "purple", code: "800080" }, { name: "rebeccapurple", code: "663399" }, { name: "red", code: "FF0000" }, { name: "rosybrown", code: "BC8F8F" }, { name: "royalblue", code: "4169E1" }, { name: "saddlebrown", code: "8B4513" }, { name: "salmon", code: "FA8072" }, { name: "sandybrown", code: "F4A460" }, { name: "seagreen", code: "2E8B57" }, { name: "seashell", code: "FFF5EE" }, { name: "sienna", code: "A0522D" }, { name: "silver", code: "C0C0C0" }, { name: "skyblue", code: "87CEEB" }, { name: "slateblue", code: "6A5ACD" }, { name: "slategray", code: "708090" }, { name: "slategrey", code: "708090" }, { name: "snow", code: "FFFAFA" }, { name: "springgreen", code: "00FF7F" }, { name: "steelblue", code: "4682B4" }, { name: "tan", code: "D2B48C" }, { name: "teal", code: "008080" }, { name: "thistle", code: "D8BFD8" }, { name: "tomato", code: "FF6347" }, { name: "turquoise", code: "40E0D0" }, { name: "violet", code: "EE82EE" }, { name: "wheat", code: "F5DEB3" }, { name: "white", code: "FFFFFF" }, { name: "whitesmoke", code: "F5F5F5" }, { name: "yellow", code: "FFFF00" }, { name: "yellowgreen", code: "9ACD32" }]);
+
+/***/ }),
+
 /***/ "./resources/assets/js/vuex/store.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -44859,7 +45015,7 @@ module.exports = Component.exports
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
 
 var state = {
-    count: 0,
+    backgroundColorCode: "#FFF",
     contents: [__WEBPACK_IMPORTED_MODULE_2__widgets_top_content__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__widgets_bottom_content__["a" /* default */]]
 };
 
@@ -44889,12 +45045,20 @@ var actions = {
         }).catch(function (error) {
             console.log(error);
         });
+    },
+    setBackgroundColorCode: function setBackgroundColorCode(_ref2, payload) {
+        var commit = _ref2.commit;
+
+        commit('setBackgroundColorCode', payload);
     }
 };
 
 var mutations = {
     addWidget: function addWidget(state, payload) {
         state.contents.splice(payload.index, 0, payload.element);
+    },
+    setBackgroundColorCode: function setBackgroundColorCode(state, payload) {
+        state.backgroundColorCode = payload;
     }
 };
 
