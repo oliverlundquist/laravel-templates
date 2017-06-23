@@ -1,7 +1,7 @@
 <template>
     <div class="dropzone">
         <div class="drag">
-            <draggable v-model="getWidgets" class="dragArea" :options="{group:'people'}" @change="addWidget">
+            <draggable v-model="getWidgets" v-bind:style="{ backgroundColor: $store.state.backgroundColorCode }" class="dragArea" :options="{group:'people'}" @change="addWidget">
                 <div v-for="(element, index) in getWidgets" :key="index" v-html="element.html"></div>
             </draggable>
         </div>
@@ -32,5 +32,8 @@
     .dropzone {
         background-color:#eee;
         padding: 20px;
+    }
+    .dragArea {
+        background-color:#fff;
     }
 </style>

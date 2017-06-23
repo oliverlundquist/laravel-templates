@@ -7,7 +7,7 @@ import BottomContent from '../widgets/bottom-content'
 Vue.use(Vuex)
 
 const state = {
-  count: 0,
+  backgroundColorCode: "#FFF",
   contents: [TopContent, BottomContent]
 }
 
@@ -35,12 +35,18 @@ const actions = {
                 commit('addWidget', payload);
             })
             .catch((error) => { console.log(error); });
+    },
+    setBackgroundColorCode: ({ commit }, payload) => {
+        commit('setBackgroundColorCode', payload);
     }
 }
 
 const mutations = {
     addWidget (state, payload) {
         state.contents.splice(payload.index, 0, payload.element);
+    },
+    setBackgroundColorCode(state, payload) {
+        state.backgroundColorCode = payload;
     }
 }
 
