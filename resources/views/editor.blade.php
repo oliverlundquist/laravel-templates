@@ -44,6 +44,7 @@
                 <div id="app"></div>
             </div>
         </div>
+        <script>window.template_id = {{ Route::current()->parameters()['id'] }}</script>
         <script src="{{ mix('/js/app.js') }}"></script>
     </body>
 </html>

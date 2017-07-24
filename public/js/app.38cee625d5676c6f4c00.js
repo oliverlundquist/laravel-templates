@@ -1605,6 +1605,37 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/App.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuedraggable__ = __webpack_require__("./node_modules/vuedraggable/dist/vuedraggable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuedraggable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuedraggable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__("./node_modules/vuex/dist/vuex.esm.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        this.$store.dispatch('loadTemplate', { id: window.template_id });
+    }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/ContentArea.vue":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1739,7 +1770,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.post('/save', { contents: this.$store.state.contents.map(function (widget) {
                     return { name: widget.name, template: widget.template };
                 }) }).then(function (response) {
-                console.log('template updated successfully!');
+                console.log('template updated successfully!');window.location.href = "/templates";
             }).catch(function (error) {
                 console.log(error);
             });
@@ -44881,7 +44912,7 @@ if (token) {
 
 var Component = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")(
   /* script */
-  null,
+  __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/App.vue"),
   /* template */
   __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-671face4\"}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/App.vue"),
   /* scopeId */
@@ -45016,7 +45047,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 
 var state = {
     backgroundColorCode: "#FFF",
-    contents: [__WEBPACK_IMPORTED_MODULE_2__widgets_top_content__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__widgets_bottom_content__["a" /* default */]]
+    contents: []
 };
 
 var getters = {
@@ -45050,6 +45081,15 @@ var actions = {
         var commit = _ref2.commit;
 
         commit('setBackgroundColorCode', payload);
+    },
+    loadTemplate: function loadTemplate(_ref3, payload) {
+        var commit = _ref3.commit;
+
+        return axios.get('/templates/' + payload.id).then(function (response) {
+            commit('loadTemplate', response.data.contents);
+        }).catch(function (error) {
+            console.log(error);
+        });
     }
 };
 
@@ -45059,6 +45099,9 @@ var mutations = {
     },
     setBackgroundColorCode: function setBackgroundColorCode(state, payload) {
         state.backgroundColorCode = payload;
+    },
+    loadTemplate: function loadTemplate(state, payload) {
+        state.contents = payload;
     }
 };
 
@@ -45075,7 +45118,7 @@ var mutations = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({
+/* unused harmony default export */ var _unused_webpack_default_export = ({
     name: 'Bottom Content',
     template: 'bottom-content'
 });
@@ -45108,7 +45151,7 @@ var mutations = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ({
+/* unused harmony default export */ var _unused_webpack_default_export = ({
     name: 'Top Content',
     template: 'top-content'
 });

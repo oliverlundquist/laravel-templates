@@ -88,7 +88,7 @@
             },
             save() {
                 axios.post('/save', { contents: this.$store.state.contents.map(widget => { return { name: widget.name, template: widget.template } }) })
-                             .then((response) => { console.log('template updated successfully!'); })
+                             .then((response) => { console.log('template updated successfully!'); window.location.href = "/templates"; })
                              .catch((error) => { console.log(error); });
             }
         },

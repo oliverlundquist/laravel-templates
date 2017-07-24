@@ -8,3 +8,14 @@
         </div>
     </div>
 </template>
+
+<script>
+    import draggable from 'vuedraggable'
+    import { mapGetters, mapActions } from 'vuex'
+
+    export default {
+        mounted() {
+            this.$store.dispatch('loadTemplate', { id: window.template_id });
+        }
+    }
+</script>
