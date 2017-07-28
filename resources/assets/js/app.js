@@ -16,6 +16,7 @@ window.Vue = require('vue');
  */
 
 window.Please = require('pleasejs');
+window.qrcode = require('qrcode-generator');
 
 import store from './vuex/store';
 import App from './components/App.vue'

@@ -9,7 +9,7 @@ services:
     networks:
       - php-app
   php:
-    image: oliverlundquist/php7-opcache:latest
+    image: oliverlundquist/php7:latest
     volumes:
       - .:/var/app/current
     networks:
