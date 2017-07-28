@@ -8,7 +8,7 @@ Vue.use(Vuex)
 
 const state = {
   backgroundColorCode: "#FFF",
-  contents: [TopContent, BottomContent]
+  contents: []
 }
 
 const getters = {
@@ -38,6 +38,13 @@ const actions = {
     },
     setBackgroundColorCode: ({ commit }, payload) => {
         commit('setBackgroundColorCode', payload);
+    },
+    loadTemplate: ({ commit }, payload) => {
+        return axios.get('/templates/' + payload.id)
+            .then((response) => {
+                commit('loadTemplate', response.data.contents);
+            })
+            .catch((error) => { console.log(error); });
     }
 }
 
@@ -47,6 +54,9 @@ const mutations = {
     },
     setBackgroundColorCode(state, payload) {
         state.backgroundColorCode = payload;
+    },
+    loadTemplate(state, payload) {
+        state.contents = payload;
     }
 }
 

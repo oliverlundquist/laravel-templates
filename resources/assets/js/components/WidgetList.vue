@@ -1,5 +1,21 @@
 <template>
     <div class="dragger">
+        <div class="preview-modal" v-if="showModal">
+            <div class="preview-modal-inner">
+                <div class="modal-menu">
+                    <div class="btn" @click="frame = { width: 1024, height: 768 }"><span class="glyphicon glyphicon-phone"></span>Desktop</div>
+                    <div class="btn" @click="frame = { width: 768, height: 1024 }"><span class="glyphicon glyphicon-phone"></span>iPad</div>
+                    <div class="btn" @click="frame = { width: 375, height: 667 }"><span class="glyphicon glyphicon-phone"></span>iPhone</div>
+                    <div class="btn" @click="frame = { width: 380, height: 667 }"><span class="glyphicon glyphicon-qrcode"></span>QR</div>
+                </div>
+                <div class="qr-code-view" v-if="frame.width === 380">
+                    <h3>Scan this QR code</h3>
+                    <h4>to preview the template on your smartphone or tablet</h4>
+                    <div v-html="getQRCode()"></div>
+                </div>
+                <iframe v-else class="frame" v-bind:style="{ width: frame.width + 'px', height: frame.height + 'px' }" src="http://localhost/?preview_template_id=10"></iframe>
+            </div>
+        </div>
         <h1>Widget List</h1>
         <div class="drag">
             <draggable v-model="widgets" class="dragArea" :options="{group:{ name:'people', pull:'clone', put:false }}">
@@ -40,7 +56,12 @@
                 <span v-bind:style="{ backgroundColor: code }" class="color-patch"></span>
             </button>
         </div>
-        <button class="btn btn-success" style="margin-top:20px" @click="save">Save</button>
+        <div>
+            <button class="btn btn-default" style="margin-top:20px;" @click="showModal = !showModal">Preview</button>
+        </div>
+        <div>
+            <button class="btn btn-success" style="margin-top:10px;" @click="save">Save</button>
+        </div>
     </div>
 </template>
 
@@ -63,7 +84,9 @@
                         backgroundColorCodeIndex: 0,
                         textColorCodeIndex: 0,
                     }
-                }
+                },
+                showModal: false,
+                frame: { width: 1024, height: 768 }
             }
         },
         methods: {
@@ -88,8 +111,16 @@
             },
             save() {
                 axios.post('/save', { contents: this.$store.state.contents.map(widget => { return { name: widget.name, template: widget.template } }) })
-                             .then((response) => { console.log('template updated successfully!'); })
+                             .then((response) => { console.log('template updated successfully!'); window.location.href = "/templates"; })
                              .catch((error) => { console.log(error); });
+            },
+            getQRCode() {
+                var typeNumber = 8;
+                var errorCorrectionLevel = 'L';
+                var qr = qrcode(typeNumber, errorCorrectionLevel);
+                qr.addData('http://10.0.0.160/?preview_template_id=10');
+                qr.make();
+                return qr.createImgTag();
             }
         },
         components: {
@@ -118,5 +149,38 @@
     .color-patch-with-label {
         padding: 0 8px;
         margin: 0 5px 0 0;
+    }
+    .preview-modal {
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        padding:20px;
+        background-color:rgba(0,0,0,0.5);
+        z-index:100;
+        text-align:center;
+    }
+    .preview-modal-inner {
+        display:inline-block;
+    }
+    .modal-menu {
+        width:355px;
+        display:inline-block;
+        background-color:#fff;
+        padding:5px 5px 5px 14px;
+        text-align:left;
+    }
+    .qr-code-view {
+        padding:20px;
+        background-color:#fff;
+        text-align:center;
+    }
+    iframe {
+        border:none;
+        display:block;
+    }
+    .glyphicon {
+        padding-right:3px;
     }
 </style>
