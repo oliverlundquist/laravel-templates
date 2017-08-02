@@ -21,6 +21,10 @@ Route::get('/', function (Request $request) {
     return view('index', ['contents' => (new Templates)->where('active', 1)->value('contents')]);
 });
 
+Route::get('csrf', function () {
+    return csrf_token();
+});
+
 Route::get('/templates', function () {
     return view('templates', ['contents' => (new Templates)->take(10)->get()]);
 });
@@ -40,8 +44,20 @@ Route::get('/editor/{id}', function () {
     return view('editor', ['contents' => (new Templates)->find('id')]);
 });
 
-Route::get('/widgets/{name}', function (string $name) {
-    return view('widgets.' . $name);
+Route::post('/widget', function (Request $request) {
+    $instance  = str_random(8);
+    $widget    = $request->input('widget');
+    $version   = $request->input('version');
+    $styles    = (bool) $request->input('styles');
+    $settings  = (object) $request->input('settings', $default = []);
+    $template  = (string) view('widgets.' . $widget . '-' . $version, compact('instance', 'widget', 'version', 'styles', 'settings'));
+
+    return [
+        'widget'   => $widget,
+        'version'  => $version,
+        'instance' => $instance,
+        'content'  => $template
+    ];
 });
 
 Route::post('/save', function (Request $request) {

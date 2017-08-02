@@ -17,7 +17,7 @@ const getters = {
             if (_.isUndefined(widget.html)) {
                 axios.get('/widgets/' + widget.template)
                     .then((response) => {
-                        widget.html = response.data;
+                        widget.html = response.data.content;
                         state.contents.splice(index, 1, widget);
                     })
                     .catch((error) => { console.log(error); });
