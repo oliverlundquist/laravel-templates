@@ -46,7 +46,7 @@ Route::get('/widgets/{name}', function (string $name) {
 
 Route::post('/save', function (Request $request) {
     $template           = new Templates;
-    $template->version  = '1.0';
+    $template->version  = '1';
     $template->page     = 'toppage';
     $template->contents = json_encode($request->input('contents'));
     $template->save();

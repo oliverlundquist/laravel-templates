@@ -13,7 +13,7 @@
                     <h4>to preview the template on your smartphone or tablet</h4>
                     <div v-html="getQRCode()"></div>
                 </div>
-                <iframe v-else class="frame" v-bind:style="{ width: frame.width + 'px', height: frame.height + 'px' }" src="http://localhost/?preview_template_id=10"></iframe>
+                <iframe v-else class="frame" v-bind:style="{ width: frame.width + 'px', height: frame.height + 'px' }" v-bind:src="template_id"></iframe>
             </div>
         </div>
         <h1>Widget List</h1>
@@ -89,6 +89,12 @@
                 frame: { width: 1024, height: 768 }
             }
         },
+        computed: {
+            template_id() {
+                console.log('getting template_id');
+                return 'http://localhost/?preview_template_id=' + window.template_id;
+            }
+        },
         methods: {
             setBaseColor(index) {
                 this.colors.selected.base = BaseColors[index];
@@ -118,7 +124,7 @@
                 var typeNumber = 8;
                 var errorCorrectionLevel = 'L';
                 var qr = qrcode(typeNumber, errorCorrectionLevel);
-                qr.addData('http://10.0.0.160/?preview_template_id=10');
+                qr.addData('http://10.0.0.160/?preview_template_id=' + template_id);
                 qr.make();
                 return qr.createImgTag();
             }
